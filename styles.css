@@ -1,0 +1,673 @@
+/* ========== GLOBAL & BODY STYLES ========== */
+*{
+     box-sizing: border-box; /* ADD THIS LINE */
+}
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Assistant', sans-serif;
+}
+
+/* ========== NAVBAR STYLES ========== */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+    padding: 0 40px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+.nav-right{
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    
+    /* [THE FIX] This tells the entire right-side container to grow */
+    /* and take up all available empty space in the navbar. */
+    flex-grow: 1; 
+}
+.menu-logo img {
+    height: 40px;
+    width: auto;
+}
+.menu-items ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 30px;
+}
+.menu-items a {
+    text-decoration: none;
+    color: #282c3f;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 28px 0;
+    border-bottom: 3px solid transparent;
+    transition: border-color 0.3s;
+}
+.menu-items a:hover {
+    border-bottom-color: #ff3f6c;
+}
+.new-badge {
+    position: relative;
+    top: -5px;
+    color: #ff3f6c;
+    font-size: 10px;
+    font-weight: 700;
+    margin-left: 2px;
+}
+/* --- Search Bar (CORRECTED) --- */
+.menu-search {
+    display: flex;
+    align-items: center;
+    background-color: #f5f5f6;
+    border-radius: 4px;
+    padding: 10px 12px;
+      /* [THE FIX] Make it take 100% of the width of its parent (.nav-right) */
+    width: 100%;
+    
+    /* [REMOVED] We no longer need flex-grow here. */
+    /* [REMOVED] The old width: 30vw is also not needed. */
+
+    /* These are still good to have */
+    min-width: 200px;
+    max-width: 600px;
+    margin: 10px;
+}
+
+.menu-search i {
+    color: #696e79;
+    margin-right: 10px;
+}
+.menu-search input {
+    background: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+    font-family: 'Assistant', sans-serif;
+}
+.menu-search input::placeholder {
+    color: #94969f;
+}
+.menu-info ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 25px;
+}
+
+.menu-info a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #282c3f;
+    font-size: 12px;
+    font-weight: 700; /* This makes the TEXT bold, which is correct */
+}
+
+.menu-info i {
+    font-size: 20px; /* Slightly larger icon size */
+    margin-bottom: 7px; /* Increased space between icon and text */
+    
+    /* [THE FIX] This makes the icons themselves thinner */
+    
+}
+
+/* ========== MAIN CONTENT & SLIDESHOW ========== */
+.slider-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+.slider-wrapper {
+    display: flex;
+    transition: transform 0.5s ease-in-out; 
+}
+.slide {
+    flex: 0 0 100%;
+}
+.slide img {
+    width: 100%;
+    display: block;
+}
+.slider-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px 0;
+}
+.dot {
+    width: 10px;
+    height: 10px;
+    background-color: #d4d5d9;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.dot.active {
+    background-color: #535766;
+}
+.main-text {
+    text-transform: uppercase;
+    color: #3e4152;
+    letter-spacing: .15em;
+    font-size: 1.8em;
+    margin: 40px 0 10px 40px;
+    font-weight: 700;
+    margin-top: 99px;
+}
+
+/* ========== SIDE OFFER PANEL (FINAL, CORRECTED VERSION) ========== */
+
+/* The main container for both the tab and the box */
+.side-offer-panel {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%); /* This vertically centers the panel */
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+
+    /* [THE FIX] This is the new logic for the closed state. */
+    /* It positions the panel's right edge 280px OUTSIDE the screen, */
+    /* which perfectly hides the 280px-wide box, leaving just the tab peeking out. */
+    right: -280px;
+    
+    /* [THE FIX] We now animate the 'right' property instead of 'transform'. */
+    transition: right 0.4s ease-in-out;
+}
+
+/* This class will be added by JavaScript to show the panel */
+.side-offer-panel.is-open {
+    /* [THE FIX] When open, the panel's right edge is flush with the screen. */
+    right: 0;
+}
+
+/* --- The Clickable Vertical Tab --- */
+/* (No z-index or position:relative is needed here anymore) */
+.side-offer-tab {
+    background-color: #535766;
+    color: white;
+    padding: 15px 8px;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    display: flex;
+    align-items: center;
+    letter-spacing: 1px;
+}
+.side-offer-tab .arrow {
+    width: 0; 
+    height: 0; 
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 8px solid white;
+    margin-bottom: 12px;
+}
+
+/* --- The Sidebox Content --- */
+/* (The box itself no longer needs any transform or transition) */
+.side-offer-box {
+    width: 280px;
+    background-color: #fff1ec;
+    padding: 20px;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.15);
+    border: 1px solid #ffc8b4;
+}
+
+/* --- All inner content styles for the box remain the same --- */
+.side-offer-box .box-header { margin: 0; font-size: 14px; color: #535766; }
+.side-offer-box .box-amount { margin: 0; font-size: 32px; font-weight: 700; color: #d15656; }
+.side-offer-box .coupon-code { background-color: #fff; border: 1px dashed #ccc; padding: 8px; text-align: center; margin: 15px 0; }
+.side-offer-box .box-subtext { font-size: 12px; text-align: center; margin-bottom: 20px; color: #535766;}
+.side-offer-box .signup-btn { display: block; background-color: #ff3f6c; color: white; text-align: center; padding: 12px; text-decoration: none; font-weight: 700; border-radius: 4px; margin-bottom: 20px;}
+.side-offer-box .guarantees { display: flex; flex-wrap: wrap; gap: 10px; font-size: 10px; color: #535766; }
+.side-offer-box .guarantees i { color: #14958f; margin-right: 4px; }
+
+/* ========== MULTI-ITEM SLIDESHOW STYLES ========== */
+/*first slide*/
+/* The static window that you look through */
+.slideshow-viewport {
+    width: 100%;
+    padding: 0 ; /* Optional: adds space on the sides */
+    overflow: hidden; /* This is the most important part */
+}
+
+/* The moving part that holds all the slides */
+.slides-track {
+    display: flex;
+    transition: transform 0.6s ease-in-out;
+}
+
+/* A single slide (a group of 5 ads) */
+.slides {
+    flex: 0 0 100%; /* Each slide takes up the full width of the viewport */
+    min-width: 100%;
+    display: flex;
+    
+}
+
+/* An individual ad item */
+.ad {
+    flex: 1; /* Makes the 5 ads share the space equally */
+}
+
+.ad img {
+    width: 100%;
+    display: block;
+    
+}
+
+.slides-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 25px; /* Space above the dots */
+    padding: 0;
+}
+
+/* This is the class your JavaScript creates */
+.slides-dots .dot {
+    width: 8px; /* Equal width and height */
+    height: 8px;
+    background-color: #d4d5d9;
+    border-radius: 50%; /* This makes it a perfect circle */
+    cursor: pointer;
+    border: none; /* Remove any default button borders */
+    padding: 0; /* Remove any default button padding */
+    transition: background-color 0.3s;
+}
+
+.slides-dots .dot.active {
+    background-color: #535766;
+}
+
+/*second slide*/
+.luxe-viewport h4{
+    text-transform: uppercase;
+    color: #3e4152;
+    letter-spacing: .15em;
+    font-size: 1.8em;
+    margin: 40px 0 10px 20px;
+    font-weight: 700;
+    margin-top: 99px;
+    margin-bottom: 70px;
+}
+
+.luxe-viewport {
+    width: 100%;
+    padding: 0 ; /* Optional: adds space on the sides */
+    overflow: hidden; /* This is the most important part */
+}
+/* An individual ad item */
+.l {
+    flex: 1; /* Makes the 5 ads share the space equally */
+}
+
+.l img {
+    width: 100%;
+    display: block;
+    
+}
+
+
+.luxe-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 25px; /* Space above the dots */
+    padding: 0;
+}
+
+/* This is the class your JavaScript creates */
+.luxe-dots .dot {
+    width: 8px; /* Equal width and height */
+    height: 8px;
+    background-color: #d4d5d9;
+    border-radius: 50%; /* This makes it a perfect circle */
+    cursor: pointer;
+    border: none; /* Remove any default button borders */
+    padding: 0; /* Remove any default button padding */
+    transition: background-color 0.3s;
+}
+
+.luxe-dots .dot.active {
+    background-color: #535766;
+}
+.l-slides {
+    flex: 0 0 100%; /* Each slide takes up the full width of the viewport */
+    min-width: 100%;
+    display: flex;
+    
+}
+.luxe-track {
+    display: flex;
+    transition: transform 0.6s ease-in-out;
+}
+
+/*third slide*/
+
+.medal-viewport h4{
+    text-transform: uppercase;
+    color: #3e4152;
+    letter-spacing: .15em;
+    font-size: 1.8em;
+    margin: 40px 0 10px 20px;
+    font-weight: 700;
+    margin-top: 99px;
+    margin-bottom: 70px;
+}
+
+.medal-viewport {
+    width: 100%;
+    padding: 0 ; /* Optional: adds space on the sides */
+    overflow: hidden; /* This is the most important part */
+}
+/* An individual ad item */
+.m {
+    flex: 1; /* Makes the 5 ads share the space equally */
+}
+
+.m img {
+    width: 100%;
+    display: block;
+    
+}
+
+
+.medal-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 25px; /* Space above the dots */
+    padding: 0;
+}
+
+/* This is the class your JavaScript creates */
+.medal-dots .dot {
+    width: 8px; /* Equal width and height */
+    height: 8px;
+    background-color: #d4d5d9;
+    border-radius: 50%; /* This makes it a perfect circle */
+    cursor: pointer;
+    border: none; /* Remove any default button borders */
+    padding: 0; /* Remove any default button padding */
+    transition: background-color 0.3s;
+}
+
+.medal-dots .dot.active {
+    background-color: #535766;
+}
+.m-slides {
+    flex: 0 0 100%; /* Each slide takes up the full width of the viewport */
+    min-width: 100%;
+    display: flex;
+    
+}
+.medal-track {
+    display: flex;
+    transition: transform 0.6s ease-in-out;
+}
+
+/*fourth slide*/
+
+.grand-viewport h4{
+    text-transform: uppercase;
+    color: #3e4152;
+    letter-spacing: .15em;
+    font-size: 1.8em;
+    margin: 40px 0 10px 20px;
+    font-weight: 700;
+    margin-top: 99px;
+    margin-bottom: 70px;
+}
+
+.grand-viewport {
+    width: 100%;
+    padding: 0 ; /* Optional: adds space on the sides */
+    overflow: hidden; /* This is the most important part */
+}
+/* An individual ad item */
+.g {
+    flex: 1; /* Makes the 5 ads share the space equally */
+}
+
+.g img {
+    width: 100%;
+    display: block;
+    
+}
+
+
+.g-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 25px; /* Space above the dots */
+    padding: 0;
+}
+
+/* This is the class your JavaScript creates */
+.g-dots .dot {
+    width: 8px; /* Equal width and height */
+    height: 8px;
+    background-color: #d4d5d9;
+    border-radius: 50%; /* This makes it a perfect circle */
+    cursor: pointer;
+    border: none; /* Remove any default button borders */
+    padding: 0; /* Remove any default button padding */
+    transition: background-color 0.3s;
+}
+
+.g-dots .dot.active {
+    background-color: #535766;
+}
+.g-slides {
+    flex: 0 0 100%; /* Each slide takes up the full width of the viewport */
+    min-width: 100%;
+    display: flex;
+    
+}
+.grand-track {
+    display: flex;
+    transition: transform 0.6s ease-in-out;
+}
+
+/* The main grid container */
+.grid h4{    
+    text-transform: uppercase;
+    color: #3e4152;
+    letter-spacing: .15em;
+    font-size: 1.8em;
+    margin: 40px 0 10px 20px;
+    font-weight: 700;
+    margin-top: 99px;
+    margin-bottom: 70px;
+}
+
+
+/* 1. The Parent Flex Container */
+.grid-container {
+     display: grid; 
+    /* [THE FIX] This creates a grid with 6 equal-width columns */
+    grid-template-columns: repeat(6, 1fr);
+}
+
+/* 2. The Individual Grid Item */
+.g {
+    
+    /* [THE FIX] This tells the item how to behave inside the flex container */
+    /* It can grow, it can shrink, and its ideal width is 200px. */
+   
+    
+    /* This creates a uniform rectangular shape */
+    aspect-ratio: 3 / 4;
+
+    /* Styling for the link element */
+    display: block;
+    text-decoration: none;
+    overflow: hidden; /* Important for the image's object-fit */
+}
+
+/* 3. The Image Itself */
+.g-image {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover; /* Fills the container without stretching */
+    transition: transform 0.3s ease;
+}
+
+.g:hover .g-image {
+    transform: scale(1.05); /* Optional: nice zoom effect on hover */
+}
+/* ========== STYLING FOR THE CENTERED LAST ROW ========== */
+
+/* 1. Make the wrapper span the full width of the grid */
+.last-row-wrapper {
+    /* This makes the container take up all 6 columns of the parent grid */
+    grid-column: 1 / -1; 
+
+    display: flex;
+    justify-content: center;
+}
+
+/* 2. Style the .g items specifically inside this wrapper */
+/* This prevents them from trying to grow and fill the space */
+.last-row-wrapper .g {
+    flex: 0 0 calc(100% / 6);
+}
+.link1 h3{
+    padding: 20px;
+    color: black;
+    font-size: 12px;
+    font-weight: 700;
+
+}
+.link1 {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+   flex-direction: column;
+}
+.link1 li{
+    list-style: none;
+    color: #696b79;
+    font-size: 15px;
+    text-decoration: none;
+    padding-bottom: 5px;
+    cursor: pointer;
+    line-height: normal;
+}
+.myntra-footer {
+  background: #f5f5f5;
+  color: #333;
+  font-family: Arial, sans-serif;
+  padding: 40px 20px;
+}
+
+.four-option-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.option-column {
+  flex: 1 1 200px;
+  margin: 0 15px;
+}
+
+.option-column h5 {
+  font-size: 14px;
+  margin-bottom: 12px;
+  color: #666;
+}
+
+.option-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.option-column ul li {
+  margin-bottom: 8px;
+}
+
+.option-column ul li a {
+  text-decoration: none;
+  color: #555;
+  font-size: 13px;
+}
+
+.app-buttons a img,
+.social-icons a img {
+  width: 32px;
+  margin-right: 10px;
+}
+
+.guarantees {
+  display: flex;
+  flex-direction: column;
+}
+
+.guarantee-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.guarantee-item img {
+  width: 40px;
+  margin-right: 10px;
+}
+
+.popular-searches {
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+  margin-bottom: 20px;
+}
+
+.popular-searches h4 {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #444;
+}
+
+.popular-searches p {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.5;
+}
+
+.info-section {
+  text-align: center;
+  font-size: 12px;
+  color: #999;
+}
+
+.info-section a {
+  color: #0073e6;
+  text-decoration: none;
+}
